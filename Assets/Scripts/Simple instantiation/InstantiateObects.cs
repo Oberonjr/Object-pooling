@@ -1,13 +1,14 @@
 using UnityEngine;
 using System.Collections.Generic;
 
-public class SimpleInstantiate : MonoBehaviour
+public class InstantiateObects : MonoBehaviour
 {
     [SerializeField] private GameObject instantiationPrefab;
     [SerializeField] private int repetitionAmount;
     [SerializeField] private Transform centerPosition;
     [SerializeField] private int instantiationDistance;
-    [SerializeField]private Camera camera;
+    [SerializeField] private Camera camera;
+    [SerializeField] private InstantiationStrategy instantiationStrategy;
     private Vector3 _rootPosition;
     private List<GameObject> instantiatedObjects = new List<GameObject>();
 
@@ -26,12 +27,6 @@ public class SimpleInstantiate : MonoBehaviour
         }
     }
 
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
-
     public void CreatePrefabs()
     {
         int iteration = 0;
@@ -47,21 +42,30 @@ public class SimpleInstantiate : MonoBehaviour
             }
             float xPosition = (_rootPosition.x - oppLength/4)+( iteration) * instantiationPrefab.transform.localScale.x * 1.05f;
             iteration++;
-            GameObject newObject = Instantiate(instantiationPrefab, new Vector3(xPosition, yPosition, instantiationDistance), Quaternion.identity);
-            instantiatedObjects.Add(newObject);
+            try
+            {
+                instantiationStrategy.CreatePrefab(instantiationPrefab,
+                    new Vector3(xPosition, yPosition, instantiationDistance), instantiatedObjects, centerPosition);
+            }
+            catch(System.Exception e)
+            {
+                instantiationStrategy.CreatePrefab(instantiationPrefab,
+                    new Vector3(xPosition, yPosition, instantiationDistance), instantiatedObjects);
+            }
+            
         }
     }
 
     public void DestroyPrefabs()
     {
-        foreach (GameObject obj in instantiatedObjects)
+        instantiationStrategy.DestroyPrefab(instantiatedObjects);
+    }
+
+    public void HardDestroyPrefabs()
+    {
+        for (int i = centerPosition.childCount - 1; i > 0; i--)
         {
-            #if UNITY_EDITOR
-            DestroyImmediate(obj);
-            #else
-            Destroy(obj, 0.1f);
-            #endif
+            DestroyImmediate(centerPosition.GetChild(i).gameObject);
         }
-        instantiatedObjects.Clear();
     }
 }
