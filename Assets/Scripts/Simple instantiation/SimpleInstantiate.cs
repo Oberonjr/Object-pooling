@@ -1,7 +1,5 @@
 using UnityEngine;
-using System.Collections;
 using System.Collections.Generic;
-using Unity.VisualScripting;
 
 public class SimpleInstantiate : MonoBehaviour
 {
@@ -12,6 +10,7 @@ public class SimpleInstantiate : MonoBehaviour
     [SerializeField]private Camera camera;
     private Vector3 _rootPosition;
     private List<GameObject> instantiatedObjects = new List<GameObject>();
+
     
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
@@ -43,7 +42,7 @@ public class SimpleInstantiate : MonoBehaviour
         {
             if (iteration > oppLength/2)
             {
-                yPosition = yPosition - (1.05f * instantiationPrefab.transform.localScale.y);
+                yPosition -= 1.05f * instantiationPrefab.transform.localScale.y;
                 iteration = 0;
             }
             float xPosition = (_rootPosition.x - oppLength/4)+( iteration) * instantiationPrefab.transform.localScale.x * 1.05f;
