@@ -29,28 +29,34 @@ public class InstantiateObects : MonoBehaviour
 
     public void CreatePrefabs()
     {
-        int iteration = 0;
-        float hypLength = Mathf.Abs(instantiationDistance/Mathf.Cos(camera.fieldOfView/2));
-        float oppLength = Mathf.Abs((hypLength*Mathf.Sin(camera.fieldOfView/2))*2);
-        float yPosition = _rootPosition.y + oppLength/12;
+        float frustumHeight = 2 * instantiationDistance * Mathf.Tan(camera.fieldOfView * 0.5f * Mathf.Deg2Rad); 
+        float frustumWidth = frustumHeight * camera.aspect;
+        float cellSizeX = instantiationPrefab.transform.localScale.x * 1.05f;
+        float cellSizeY = instantiationPrefab.transform.localScale.y * 1.05f;
+        int maxCols = Mathf.FloorToInt(frustumWidth / cellSizeX);
+        float originX = -(maxCols*cellSizeX) /2 + cellSizeX / 2;
+        float originY = frustumHeight / 2 - cellSizeY / 2;
+        float originZ = instantiationDistance;
+        
+        Vector3 localPosition = new Vector3();
         for (int i = 0; i < repetitionAmount; i++)
         {
-            if (iteration > oppLength/2)
-            {
-                yPosition -= 1.05f * instantiationPrefab.transform.localScale.y;
-                iteration = 0;
-            }
-            float xPosition = (_rootPosition.x - oppLength/4)+( iteration) * instantiationPrefab.transform.localScale.x * 1.05f;
-            iteration++;
+                int currentCol = i%maxCols;
+                int currentRow = Mathf.FloorToInt(i/maxCols);
+                localPosition.x = originX + currentCol*cellSizeX;
+                localPosition.y = originY - currentRow*cellSizeY;
+                localPosition.z = originZ;
+                
+            Vector3 worldPosition = camera.transform.position + camera.transform.right * localPosition.x + camera.transform.up * localPosition.y + camera.transform.forward * localPosition.z;
             try
             {
                 instantiationStrategy.CreatePrefab(instantiationPrefab,
-                    new Vector3(xPosition, yPosition, instantiationDistance), instantiatedObjects, centerPosition);
+                    worldPosition, instantiatedObjects, centerPosition);
             }
             catch(System.Exception e)
             {
                 instantiationStrategy.CreatePrefab(instantiationPrefab,
-                    new Vector3(xPosition, yPosition, instantiationDistance), instantiatedObjects);
+                    worldPosition, instantiatedObjects);
             }
             
         }
