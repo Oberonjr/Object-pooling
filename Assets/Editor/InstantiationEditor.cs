@@ -2,14 +2,14 @@ using System;
 using UnityEngine;
 using UnityEditor;
 
-[CustomEditor(typeof(InstantiateObects))]
+[CustomEditor(typeof(InstantiateObjects))]
 public class InstantiationEditor : Editor
 {
     public override void OnInspectorGUI()
     {
         DrawDefaultInspector();
         
-        InstantiateObects instantiatedObject = (InstantiateObects)target;
+        InstantiateObjects instantiatedObject = (InstantiateObjects)target;
         EditorGUILayout.Space();
         if (GUILayout.Button("Instantiate"))
         {

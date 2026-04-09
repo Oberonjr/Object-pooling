@@ -1,7 +1,7 @@
 using UnityEngine;
 using System.Collections.Generic;
 
-public class InstantiateObects : MonoBehaviour
+public class InstantiateObjects : MonoBehaviour
 {
     [SerializeField] private GameObject instantiationPrefab;
     [SerializeField] private int repetitionAmount;
@@ -9,7 +9,6 @@ public class InstantiateObects : MonoBehaviour
     [SerializeField] private int instantiationDistance;
     [SerializeField] private Camera camera;
     [SerializeField] private InstantiationStrategy instantiationStrategy;
-    private Vector3 _rootPosition;
     private List<GameObject> instantiatedObjects = new List<GameObject>();
 
     
@@ -17,18 +16,16 @@ public class InstantiateObects : MonoBehaviour
     void Start()
     {
         if(camera ==  null) camera = Camera.main;
-        if (centerPosition == null)
-        {
-            _rootPosition = new Vector3();
-        }
-        else
-        {
-            _rootPosition = centerPosition.position;
-        }
+        instantiationStrategy.InitializePrefabs(repetitionAmount,instantiationPrefab, instantiatedObjects);   
     }
 
     public void CreatePrefabs()
     {
+        if(instantiatedObjects == null)  instantiatedObjects = new List<GameObject>();
+        if (instantiatedObjects.Count <= 0)
+        {
+            instantiationStrategy.InitializePrefabs(repetitionAmount,instantiationPrefab, instantiatedObjects);
+        }
         float frustumHeight = 2 * instantiationDistance * Mathf.Tan(camera.fieldOfView * 0.5f * Mathf.Deg2Rad); 
         float frustumWidth = frustumHeight * camera.aspect;
         float cellSizeX = instantiationPrefab.transform.localScale.x * 1.05f;
@@ -48,15 +45,16 @@ public class InstantiateObects : MonoBehaviour
                 localPosition.z = originZ;
                 
             Vector3 worldPosition = camera.transform.position + camera.transform.right * localPosition.x + camera.transform.up * localPosition.y + camera.transform.forward * localPosition.z;
+            
             try
             {
                 instantiationStrategy.CreatePrefab(instantiationPrefab,
-                    worldPosition, instantiatedObjects, centerPosition);
+                    worldPosition, instantiatedObjects, centerPosition, i);
             }
             catch(System.Exception e)
             {
                 instantiationStrategy.CreatePrefab(instantiationPrefab,
-                    worldPosition, instantiatedObjects);
+                    worldPosition, instantiatedObjects, i);
             }
             
         }
@@ -69,9 +67,10 @@ public class InstantiateObects : MonoBehaviour
 
     public void HardDestroyPrefabs()
     {
-        for (int i = centerPosition.childCount - 1; i > 0; i--)
+        for (int i = centerPosition.childCount - 1; i >= 0; i--)
         {
             DestroyImmediate(centerPosition.GetChild(i).gameObject);
         }
+        instantiatedObjects.Clear();
     }
 }
