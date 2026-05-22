@@ -2,30 +2,30 @@ using System;
 using UnityEngine;
 using UnityEditor;
 
-[CustomEditor(typeof(InstantiateObjects))]
-public class InstantiationEditor : Editor
+[CustomEditor(typeof(FallingInstantiation))]
+public class FallingInstantiationEditor : Editor
 {
     public override void OnInspectorGUI()
     {
         DrawDefaultInspector();
         
-        InstantiateObjects instantiatedObject = (InstantiateObjects)target;
+        FallingInstantiation instantiatedObject = (FallingInstantiation)target;
         EditorGUILayout.Space();
-        if (GUILayout.Button("Instantiate"))
+        if (GUILayout.Button("Start Spawning"))
         {
-            instantiatedObject.CreatePrefabs();
+            instantiatedObject.StartSpawning();
         }
         EditorGUILayout.Space();
-        if (GUILayout.Button("Destroy Prefabs"))
+        if (GUILayout.Button("Despawn Objects"))
         {
-            instantiatedObject.DestroyPrefabs();
+            instantiatedObject.DespawnAllObjects();
         }
         EditorGUILayout.Space();
         if (GUILayout.Button("Hard Destroy  Prefabs"))
         {
             try
             {
-                instantiatedObject.HardDestroyPrefabs();
+                instantiatedObject.DespawnAllObjects();
             }
             catch (System.Exception e)
             {

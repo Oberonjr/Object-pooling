@@ -1,7 +1,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-[CreateAssetMenu(fileName = "Simple Instantiation Strategy", menuName = "Instantiation Strategies/Custom Pooling Instantiation Strategy")]
+[CreateAssetMenu(fileName = "Pooling Instantiation Strategy", menuName = "Instantiation Strategies/Custom Pooling Instantiation Strategy")]
 public class CustomPoolingInstantiationStrategy : InstantiationStrategy
 {
     public override void InitializePrefabs(int numberOfPrefabs, GameObject prefab, List<GameObject> objects)
@@ -10,24 +10,44 @@ public class CustomPoolingInstantiationStrategy : InstantiationStrategy
         {
             GameObject obj = Instantiate(prefab);
             obj.SetActive(false);
+            obj.TryGetComponent(out Rigidbody rb);
+            if(rb != null) rb.useGravity = false;
             objects.Add(obj);
         }
     }
 
-    public override void CreatePrefab(GameObject prefab, Vector3 position, List<GameObject> objects, int  objIndex = 1)
+    public override GameObject CreatePrefab(GameObject prefab, Vector3 position, List<GameObject> objects, Transform parent = null)
     {
-        objects[objIndex].transform.position = position;
-        objects[objIndex].SetActive(true);
+        int objIndex = -1;
+        for (int i = 0; i < objects.Count; i++)
+        {
+            if (!objects[i].activeInHierarchy)
+            {
+                objects[i].transform.position = position;
+                objects[i].SetActive(true);
+                if(parent != null) objects[i].transform.SetParent(parent);
+                objIndex = i;
+                break;
+            }
+        }
+
+        if (objIndex != -1)
+        {
+            return objects[objIndex];
+        }
+        else
+        {
+            Debug.LogError("No inactive object available in pool.");
+            return null;
+        }
     }
 
-    public override void CreatePrefab(GameObject prefab, Vector3 position, List<GameObject> objects, Transform parent, int  objIndex = 1)
+    public override void DestroyPrefab(GameObject prefab)
     {
-        objects[objIndex].transform.position = position;
-        objects[objIndex].SetActive(true);
-        objects[objIndex].transform.SetParent(parent);
+        prefab.SetActive(false);
     }
-
-    public override void DestroyPrefab(List<GameObject> objects)
+    
+    public override void DestroyPrefabs(List<GameObject> objects)
     {
         foreach (GameObject obj in objects)
         {

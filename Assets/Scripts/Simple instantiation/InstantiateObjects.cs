@@ -12,7 +12,6 @@ public class InstantiateObjects : MonoBehaviour
     private List<GameObject> instantiatedObjects = new List<GameObject>();
 
     
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
         if(camera ==  null) camera = Camera.main;
@@ -45,24 +44,13 @@ public class InstantiateObjects : MonoBehaviour
                 localPosition.z = originZ;
                 
             Vector3 worldPosition = camera.transform.position + camera.transform.right * localPosition.x + camera.transform.up * localPosition.y + camera.transform.forward * localPosition.z;
-            
-            try
-            {
-                instantiationStrategy.CreatePrefab(instantiationPrefab,
-                    worldPosition, instantiatedObjects, centerPosition, i);
-            }
-            catch(System.Exception e)
-            {
-                instantiationStrategy.CreatePrefab(instantiationPrefab,
-                    worldPosition, instantiatedObjects, i);
-            }
-            
+            instantiationStrategy.CreatePrefab(instantiationPrefab, worldPosition, instantiatedObjects, centerPosition);
         }
     }
 
     public void DestroyPrefabs()
     {
-        instantiationStrategy.DestroyPrefab(instantiatedObjects);
+        instantiationStrategy.DestroyPrefabs(instantiatedObjects);
     }
 
     public void HardDestroyPrefabs()
