@@ -12,3 +12,4 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f5dfb325ece1dc14891199808321111b, type: 3}
   m_Name: Custom Pooling Instantiation Strategy
   m_EditorClassIdentifier: Assembly-CSharp::CustomPoolingInstantiationStrategy
+  initialSpawnMultiplier: 1

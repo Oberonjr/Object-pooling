@@ -16,9 +16,14 @@ public class FallingInstantiationEditor : Editor
             instantiatedObject.StartSpawning();
         }
         EditorGUILayout.Space();
-        if (GUILayout.Button("Despawn Objects"))
+        if (GUILayout.Button("Stop Spawning"))
         {
-            instantiatedObject.DespawnAllObjects();
+            instantiatedObject.StopSpawning();
+        }
+        EditorGUILayout.Space();
+        if (GUILayout.Button("Spawn All Objects at Once"))
+        {
+            instantiatedObject.SpawnAllAtOnce();
         }
         EditorGUILayout.Space();
         if (GUILayout.Button("Hard Destroy  Prefabs"))

@@ -4,47 +4,41 @@ using UnityEngine;
 [CreateAssetMenu(fileName = "Pooling Instantiation Strategy", menuName = "Instantiation Strategies/Custom Pooling Instantiation Strategy")]
 public class CustomPoolingInstantiationStrategy : InstantiationStrategy
 {
+    [SerializeField] private float initialSpawnMultiplier = 1;
+    Queue<GameObject> availableObjects = new Queue<GameObject>();
+    
     public override void InitializePrefabs(int numberOfPrefabs, GameObject prefab, List<GameObject> objects)
     {
-        for (int i = 0; i < numberOfPrefabs; i++)
+        availableObjects.Clear();
+        for (int i = 0; i < numberOfPrefabs * initialSpawnMultiplier; i++)
         {
             GameObject obj = Instantiate(prefab);
             obj.SetActive(false);
             obj.TryGetComponent(out Rigidbody rb);
             if(rb != null) rb.useGravity = false;
             objects.Add(obj);
+            availableObjects.Enqueue(obj);
         }
     }
 
     public override GameObject CreatePrefab(GameObject prefab, Vector3 position, List<GameObject> objects, Transform parent = null)
     {
-        int objIndex = -1;
-        for (int i = 0; i < objects.Count; i++)
+        if (availableObjects.Count <= 0)
         {
-            if (!objects[i].activeInHierarchy)
-            {
-                objects[i].transform.position = position;
-                objects[i].SetActive(true);
-                if(parent != null) objects[i].transform.SetParent(parent);
-                objIndex = i;
-                break;
-            }
-        }
-
-        if (objIndex != -1)
-        {
-            return objects[objIndex];
-        }
-        else
-        {
-            Debug.LogError("No inactive object available in pool.");
+            Debug.LogWarning("Pool exhausted - no available objects");
             return null;
         }
+        GameObject obj = availableObjects.Dequeue();
+        obj.transform.position = position;
+        obj.SetActive(true);
+        if(parent != null) obj.transform.SetParent(parent);
+        return obj;
     }
 
-    public override void DestroyPrefab(GameObject prefab)
+    public override void DestroyPrefab(GameObject obj)
     {
-        prefab.SetActive(false);
+        obj.SetActive(false);
+        availableObjects.Enqueue(obj);
     }
     
     public override void DestroyPrefabs(List<GameObject> objects)
@@ -52,6 +46,7 @@ public class CustomPoolingInstantiationStrategy : InstantiationStrategy
         foreach (GameObject obj in objects)
         {
             obj.SetActive(false);
+            availableObjects.Enqueue(obj);
         }
     }
 }

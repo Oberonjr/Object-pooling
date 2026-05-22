@@ -37,11 +37,11 @@ public class InstantiateObjects : MonoBehaviour
         Vector3 localPosition = new Vector3();
         for (int i = 0; i < repetitionAmount; i++)
         {
-                int currentCol = i%maxCols;
-                int currentRow = Mathf.FloorToInt(i/maxCols);
-                localPosition.x = originX + currentCol*cellSizeX;
-                localPosition.y = originY - currentRow*cellSizeY;
-                localPosition.z = originZ;
+            int currentCol = i%maxCols;
+            int currentRow = Mathf.FloorToInt(i/maxCols);
+            localPosition.x = originX + currentCol*cellSizeX;
+            localPosition.y = originY - currentRow*cellSizeY;
+            localPosition.z = originZ;
                 
             Vector3 worldPosition = camera.transform.position + camera.transform.right * localPosition.x + camera.transform.up * localPosition.y + camera.transform.forward * localPosition.z;
             instantiationStrategy.CreatePrefab(instantiationPrefab, worldPosition, instantiatedObjects, centerPosition);

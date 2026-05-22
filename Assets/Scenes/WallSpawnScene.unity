@@ -493,11 +493,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::SimpleInstantiate
   instantiationPrefab: {fileID: 9206174111679775143, guid: ae686fad9827e5a40806b0f02e9f64b8, type: 3}
-  repetitionAmount: 20000
+  repetitionAmount: 200000
   centerPosition: {fileID: 541677285}
   instantiationDistance: 50
   camera: {fileID: 330585545}
-  instantiationStrategy: {fileID: 11400000, guid: 8a296a547be79a24f8749992b845833d, type: 2}
+  instantiationStrategy: {fileID: 11400000, guid: 01d938f502132754b8fe4c48d824a8f7, type: 2}
 --- !u!4 &1389223036
 Transform:
   m_ObjectHideFlags: 0
