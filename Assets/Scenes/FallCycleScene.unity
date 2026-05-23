@@ -306,7 +306,7 @@ MonoBehaviour:
   centerPosition: {fileID: 1525729332}
   instantiationDistance: 15
   camera: {fileID: 658863855}
-  instantiationStrategy: {fileID: 11400000, guid: 8a296a547be79a24f8749992b845833d, type: 2}
+  instantiationStrategy: {fileID: 11400000, guid: 807a9463bd6ee9649a3820415e9bbd1e, type: 2}
 --- !u!1 &773828357
 GameObject:
   m_ObjectHideFlags: 0
