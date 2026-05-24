@@ -3,23 +3,23 @@ using UnityEngine;
 
 public class InstantiationStrategy : ScriptableObject, IInstantiateStrategy
 {
-    public virtual void InitializePrefabs(int numberOfPrefabs, GameObject prefab, List<GameObject> objects)
+    public virtual void Prewarm(int numberOfPrefabs, GameObject prefab, List<GameObject> objects)
     {
-        
+
     }
 
-    public virtual GameObject CreatePrefab(GameObject prefab, Vector3 position, List<GameObject> objects, Transform parent)
+    public virtual GameObject Spawn(GameObject prefab, Vector3 position, List<GameObject> objects, Transform parent)
     {
         return null;
     }
 
-    public virtual void DestroyPrefab(GameObject prefab)
+    public virtual void Despawn(GameObject obj)
     {
-        
+
     }
 
-    public virtual void DestroyPrefabs(List<GameObject> objects)
+    public virtual void DespawnAll(List<GameObject> objects)
     {
-        
+
     }
 }

@@ -266,6 +266,7 @@ GameObject:
   m_Component:
   - component: {fileID: 723974074}
   - component: {fileID: 723974075}
+  - component: {fileID: 723974076}
   m_Layer: 0
   m_Name: GameManager
   m_TagString: Untagged
@@ -300,13 +301,27 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d38fddf4190ce9e4f9a068eee915954a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::FallingInstantiation
+  instantiationType: 0
   instantiationPrefab: {fileID: 9206174111679775143, guid: 1261f98e751cd7c46ae77fa808fe6345, type: 3}
   repetitionAmount: 50000
-  spawnDelay: 0
   centerPosition: {fileID: 1525729332}
   instantiationDistance: 15
   camera: {fileID: 658863855}
   instantiationStrategy: {fileID: 11400000, guid: 807a9463bd6ee9649a3820415e9bbd1e, type: 2}
+  instantiationStrategyList: {fileID: 11400000, guid: ac9f9812d88199b4182c470708a3cad4, type: 2}
+  benchmarkRepetitions: 1
+--- !u!114 &723974076
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 723974073}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2007fc422d1e73c4995129d5b3f9cf99, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::BenchmarkRunner
 --- !u!1 &773828357
 GameObject:
   m_ObjectHideFlags: 0

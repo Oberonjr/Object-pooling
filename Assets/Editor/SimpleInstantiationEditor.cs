@@ -2,32 +2,37 @@ using System;
 using UnityEngine;
 using UnityEditor;
 
-[CustomEditor(typeof(InstantiateObjects))]
+[CustomEditor(typeof(InstantiateWallObjects))]
 public class SimpleInstantiationEditor : Editor
 {
     public override void OnInspectorGUI()
     {
         DrawDefaultInspector();
-        
-        InstantiateObjects instantiatedObject = (InstantiateObjects)target;
+
+        InstantiateWallObjects instantiatedWallObject = (InstantiateWallObjects)target;
         EditorGUILayout.Space();
-        if (GUILayout.Button("Instantiate"))
+        if (GUILayout.Button("Spawn"))
         {
-            instantiatedObject.CreatePrefabs();
+            instantiatedWallObject.Spawn(null);
         }
         EditorGUILayout.Space();
-        if (GUILayout.Button("Destroy Prefabs"))
+        if (GUILayout.Button("Run Bechmark"))
         {
-            instantiatedObject.DestroyPrefabs();
+            instantiatedWallObject.BenchmarkAllStrategies();
         }
         EditorGUILayout.Space();
-        if (GUILayout.Button("Hard Destroy  Prefabs"))
+        if (GUILayout.Button("Despawn"))
+        {
+            instantiatedWallObject.DestroyPrefabs();
+        }
+        EditorGUILayout.Space();
+        if (GUILayout.Button("Hard Destroy Prefabs"))
         {
             try
             {
-                instantiatedObject.HardDestroyPrefabs();
+                instantiatedWallObject.HardDestroyPrefabs();
             }
-            catch (System.Exception e)
+            catch (Exception e)
             {
                 Debug.LogException(e);
                 Debug.Log("Hard destroy error: probably no parent found");

@@ -2,37 +2,36 @@ using System;
 using UnityEngine;
 using UnityEditor;
 
-[CustomEditor(typeof(FallingInstantiation))]
+[CustomEditor(typeof(InstantiateFallingObjects))]
 public class FallingInstantiationEditor : Editor
 {
     public override void OnInspectorGUI()
     {
         DrawDefaultInspector();
-        
-        FallingInstantiation instantiatedObject = (FallingInstantiation)target;
+
+        InstantiateFallingObjects instantiatedObject = (InstantiateFallingObjects)target;
         EditorGUILayout.Space();
-        if (GUILayout.Button("Start Spawning"))
+        if (GUILayout.Button("Spawn objects"))
         {
-            instantiatedObject.StartSpawning();
+            instantiatedObject.Spawn(null);
         }
         EditorGUILayout.Space();
-        if (GUILayout.Button("Stop Spawning"))
+        if (GUILayout.Button("Run Bechmark"))
         {
-            instantiatedObject.StopSpawning();
+            instantiatedObject.BenchmarkAllStrategies();
         }
         EditorGUILayout.Space();
-        if (GUILayout.Button("Spawn All Objects at Once"))
+        if (GUILayout.Button("Destroy Prefabs"))
         {
-            instantiatedObject.SpawnAllAtOnce();
+            instantiatedObject.DestroyPrefabs();
         }
-        EditorGUILayout.Space();
-        if (GUILayout.Button("Hard Destroy  Prefabs"))
+        if (GUILayout.Button("Hard Destroy Prefabs"))
         {
             try
             {
-                instantiatedObject.DespawnAllObjects();
+                instantiatedObject.HardDestroyPrefabs();
             }
-            catch (System.Exception e)
+            catch (Exception e)
             {
                 Debug.LogException(e);
                 Debug.Log("Hard destroy error: probably no parent found");

@@ -4,7 +4,7 @@ using UnityEngine;
 [CreateAssetMenu(fileName = "Simple Instantiation Strategy", menuName = "Instantiation Strategies/Simple Instantiation Strategy")]
 public class SimpleInstantiationStrategy : InstantiationStrategy
 {
-    public override GameObject CreatePrefab(GameObject prefab, Vector3 position, List<GameObject> objects, Transform parent = null)
+    public override GameObject Spawn(GameObject prefab, Vector3 position, List<GameObject> objects, Transform parent = null)
     {
         GameObject instantiatedObject = Instantiate(prefab, position, Quaternion.identity);
         objects.Add(instantiatedObject);
@@ -15,12 +15,12 @@ public class SimpleInstantiationStrategy : InstantiationStrategy
         return instantiatedObject;
     }
 
-    public override void DestroyPrefab(GameObject prefab)
+    public override void Despawn(GameObject obj)
     {
-        Destroy(prefab);
+        Destroy(obj);
     }
-    
-    public override void DestroyPrefabs(List<GameObject> objects)
+
+    public override void DespawnAll(List<GameObject> objects)
     {
         foreach (GameObject obj in objects)
         {

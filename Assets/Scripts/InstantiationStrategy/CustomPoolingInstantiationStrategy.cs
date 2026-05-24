@@ -6,8 +6,8 @@ public class CustomPoolingInstantiationStrategy : InstantiationStrategy
 {
     [SerializeField] private float initialSpawnMultiplier = 1;
     Queue<GameObject> availableObjects = new Queue<GameObject>();
-    
-    public override void InitializePrefabs(int numberOfPrefabs, GameObject prefab, List<GameObject> objects)
+
+    public override void Prewarm(int numberOfPrefabs, GameObject prefab, List<GameObject> objects)
     {
         availableObjects.Clear();
         for (int i = 0; i < numberOfPrefabs * initialSpawnMultiplier; i++)
@@ -21,7 +21,7 @@ public class CustomPoolingInstantiationStrategy : InstantiationStrategy
         }
     }
 
-    public override GameObject CreatePrefab(GameObject prefab, Vector3 position, List<GameObject> objects, Transform parent = null)
+    public override GameObject Spawn(GameObject prefab, Vector3 position, List<GameObject> objects, Transform parent = null)
     {
         if (availableObjects.Count <= 0)
         {
@@ -35,13 +35,13 @@ public class CustomPoolingInstantiationStrategy : InstantiationStrategy
         return obj;
     }
 
-    public override void DestroyPrefab(GameObject obj)
+    public override void Despawn(GameObject obj)
     {
         obj.SetActive(false);
         availableObjects.Enqueue(obj);
     }
-    
-    public override void DestroyPrefabs(List<GameObject> objects)
+
+    public override void DespawnAll(List<GameObject> objects)
     {
         foreach (GameObject obj in objects)
         {
