@@ -200422,6 +200422,8 @@ MonoBehaviour:
   - {fileID: 0}
   - {fileID: 0}
   - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
   despawnedClones: []
   delays: []
   deactivatedChild: {fileID: 0}
@@ -200530,6 +200532,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1389223036}
   - component: {fileID: 1389223035}
+  - component: {fileID: 1389223037}
   m_Layer: 0
   m_Name: GameManager
   m_TagString: Untagged
@@ -200549,12 +200552,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 14bf0d1a3ad29cb4dafa4d157774991b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::SimpleInstantiate
+  instantiationType: 0
   instantiationPrefab: {fileID: 9206174111679775143, guid: ae686fad9827e5a40806b0f02e9f64b8, type: 3}
-  repetitionAmount: 200000
+  repetitionAmount: 200
   centerPosition: {fileID: 541677285}
   instantiationDistance: 50
   camera: {fileID: 330585545}
   instantiationStrategy: {fileID: 11400000, guid: 807a9463bd6ee9649a3820415e9bbd1e, type: 2}
+  instantiationStrategyList: {fileID: 11400000, guid: ac9f9812d88199b4182c470708a3cad4, type: 2}
+  benchmarkRepetitions: 10
 --- !u!4 &1389223036
 Transform:
   m_ObjectHideFlags: 0
@@ -200570,6 +200576,18 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1389223037
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1389223034}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2007fc422d1e73c4995129d5b3f9cf99, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::BenchmarkRunner
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
   m_ObjectHideFlags: 0

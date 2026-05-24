@@ -37,10 +37,10 @@ public abstract class InstantiateObjects : MonoBehaviour
         {
             foreach (var strategy in instantiationStrategyList.instantiationStrategies)
             {
-                EventBus<BenchmarkStartingEvent>.Publish(new BenchmarkStartingEvent(strategy, i, repetitionAmount, runID, runDateTime, instantiationType));
+                EventBus<BenchmarkStartingEvent>.Publish(new BenchmarkStartingEvent(strategy, i+1, repetitionAmount, runID, runDateTime, instantiationType));
                 Spawn(strategy);
                 EventBus<BenchmarkEndingEvent>.Publish(new BenchmarkEndingEvent());
-                HardDestroyPrefabs();
+                strategy.DespawnAll(instantiatedObjects);
             }
         }
         

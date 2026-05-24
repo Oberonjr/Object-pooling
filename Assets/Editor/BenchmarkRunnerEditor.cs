@@ -14,14 +14,19 @@ public class BenchmarkRunnerEditor : Editor
         if (GUILayout.Button("Open Output Folder"))
         {
             System.IO.Directory.CreateDirectory(dir);
-            EditorUtility.RevealInFinder(path);
+            EditorUtility.RevealInFinder(dir);
         }
         EditorGUILayout.Space();
         if (GUILayout.Button("Clear Results File"))
         {
             if (System.IO.Directory.Exists(dir))
             {
-                System.IO.Directory.Delete(path);
+                System.IO.File.Delete(path);
+                Debug.Log("Deleted " + path);
+            }
+            else
+            {
+                Debug.Log("Directory does not exist");
             }
         }
     }
